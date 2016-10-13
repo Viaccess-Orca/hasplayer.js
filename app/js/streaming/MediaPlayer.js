@@ -1087,7 +1087,14 @@ MediaPlayer = function () {
          */
         getVideoBitrates: function () {
             _isPlayerInitialized();
-            return videoBitrates;
+            
+            /* Copyright (C) Viaccess-2016 - BEGIN
+             * Return a copy of the videoBitrates instead of the videoBitrates itself */
+             
+            /* return videoBitrates; */
+            return videoBitrates.slice(0);
+            
+            /*  Copyright (C) Viaccess-2016 - END */
         },
 
         /**
@@ -1169,7 +1176,7 @@ MediaPlayer = function () {
          * The tracks list can be retrieved once the video 'loadeddata' event has been fired.
          * @method getTracks
          * @access public
-         * @param {String} type - the stream type according to MediaPlayer.TRACKS_TYPE (see @link MediaPlayer#TRACKS_TYPE)
+         * @param {String} type - the stream type according to MediaPlayer.TRACKS_TYPE (see {@link MediaPlayer#TRACKS_TYPE})
          * @memberof MediaPlayer#
          * @return {Array<Track>} the available tracks for the stream type
          */
@@ -1198,6 +1205,39 @@ MediaPlayer = function () {
 
             return tracks;
         },
+        
+        /* Copyright (C) Viaccess-2016 - BEGIN
+         *  Add deprecated function for compatibility reason */
+         
+        /**
+         * Returns the list of available subtitle tracks (as specified in the stream manifest).
+         * The tracks list can be retrieved once the video 'loadeddata' event has been fired.
+         * @method getSubtitleTracks
+         * @access public
+         * @memberof MediaPlayer#
+         * @return {Array<Track>} the available subtitle tracks.
+         * @deprecated Use {@link MediaPlayer#getTracks} instead.
+         */
+        getSubtitleTracks: function() {
+            console.warn('You are using a "deprecated" method. Please use getTracks instead.');
+            return this.getTracks(MediaPlayer.TRACKS_TYPE.TEXT);
+        },
+        
+        /**
+         * Returns the list of available audio tracks (as specified in the stream manifest).
+         * The tracks list can be retrieved once the video 'loadeddata' event has been fired.
+         * @method getAudioTracks
+         * @access public
+         * @memberof MediaPlayer#
+         * @return {Array<Track>} the available audio tracks.
+         * @deprecated Use {@link MediaPlayer#getTracks} instead.
+         */
+        getAudioTracks: function() {
+            console.warn('You are using a "deprecated" method. Please use getTracks instead.');
+            return this.getTracks(MediaPlayer.TRACKS_TYPE.AUDIO);
+        },
+        
+        /* Copyright (C) Viaccess-2016 - END */
 
         /**
          * Selects the track to be playbacked for the stream type.
@@ -1205,7 +1245,7 @@ MediaPlayer = function () {
          * @access public
          * @memberof MediaPlayer#
          * @see [getTracks]{@link MediaPlayer#getTracks}
-         * @param {String} type - the stream type according to MediaPlayer.TRACKS_TYPE (see @link MediaPlayer#TRACKS_TYPE)
+         * @param {String} type - the stream type according to {@link MediaPlayer#TRACKS_TYPE}
          * @param {Track} track - the track to select
          *
          */
@@ -1245,13 +1285,46 @@ MediaPlayer = function () {
                 }
             }
         },
+        
+        /* Copyright (C) Viaccess-2016 - BEGIN
+         *  Add deprecated function for compatibility reason */
+         
+        /**
+         * Selects the audio track to be playbacked.
+         * @method setAudioTrack
+         * @access public
+         * @memberof MediaPlayer#
+         * @param {Track} audioTrack - the track to select
+         * @deprecated Use {@link MediaPlayer#selectTrack} instead.
+         *
+         */
+        setAudioTrack: function(audioTrack) {
+            console.warn('You are using a "deprecated" method. Please use selectTrack instead.');
+            return this.selectTrack(MediaPlayer.TRACKS_TYPE.AUDIO,audioTrack);
+        },
+        
+        /**
+         * Selects the subtitle track to be playbacked.
+         * @method setSubtitleTrack
+         * @access public
+         * @memberof MediaPlayer#
+         * @param {Track} subtitleTrack - the track to select
+         * @deprecated Use {@link MediaPlayer#selectTrack} instead.
+         *
+         */
+        setSubtitleTrack: function(subtitleTrack) {
+            console.warn('You are using a "deprecated" method. Please use selectTrack instead.');
+            return this.selectTrack(MediaPlayer.TRACKS_TYPE.TEXT,subtitleTrack);
+        },
+        
+        /* Copyright (C) Viaccess-2016 - END */
 
         /**
          * Returns the selected track for the stream type.
          * @method getSelectedTrack
          * @access public
          * @memberof MediaPlayer#
-         * @param {String} type - the stream type according to MediaPlayer.TRACKS_TYPE (see @link MediaPlayer#TRACKS_TYPE)
+         * @param {String} type - the stream type according to {@link MediaPlayer#TRACKS_TYPE}
          * @return {Track} the selected track
          */
         getSelectedTrack: function (type) {
@@ -1272,6 +1345,38 @@ MediaPlayer = function () {
                 lang: _track.lang
             };
         },
+        
+        /* Copyright (C) Viaccess-2016 - BEGIN
+         *  Add deprecated function for compatibility reason */
+         
+        /**
+         * Returns the selected audio track.
+         * @method getSelectedAudioTrack
+         * @access public
+         * @memberof MediaPlayer#
+         * @return {Track} the selected audio track
+         * @deprecated Use {@link MediaPlayer#getSelectedTrack} instead.
+         */
+        getSelectedAudioTrack: function() {
+            console.warn('You are using a "deprecated" method. Please use getSelectedTrack instead.');
+            return this.getSelectedTrack(MediaPlayer.TRACKS_TYPE.AUDIO);
+        },
+
+        /**
+         * Returns the selected subtitle track.
+         * @method getSelectedSubtitleTrack
+         * @access public
+         * @memberof MediaPlayer#
+         * @return {Track} the selected subtitle track
+         * @deprecated Use {@link MediaPlayer#getSelectedTrack} instead.
+         */
+        getSelectedSubtitleTrack: function() {
+            console.warn('You are using a "deprecated" method. Please use getSelectedTrack instead.');
+            return this.getSelectedTrack(MediaPlayer.TRACKS_TYPE.TEXT);
+        },
+        
+        /* Copyright (C) Viaccess-2016 - END */
+
 //#endregion
 
 //#region SUBTITLES DISPLAY
@@ -1320,7 +1425,7 @@ MediaPlayer = function () {
         },
 
         /**
-         * Returns the HTML div element previously attached (@see [attachTTMLRenderingDiv]{@link MediaPlayer#attachTTMLRenderingDiv})
+         * Returns the HTML div element previously attached (see [attachTTMLRenderingDiv]{@link MediaPlayer#attachTTMLRenderingDiv})
          * @method getTTMLRenderingDiv
          * @access public
          * @memberof MediaPlayer#
